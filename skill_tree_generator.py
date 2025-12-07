@@ -9,15 +9,8 @@ import json
 import requests
 from typing import Dict, List, Any
 
-try:
-    import PyPDF2
-except ImportError:
-    PyPDF2 = None
-
-try:
-    import pdfplumber
-except ImportError:
-    pdfplumber = None
+import PyPDF2
+import pdfplumber
 
 class SkillTreeGenerator:
     def __init__(self, api_key: str = None):
@@ -28,10 +21,7 @@ class SkillTreeGenerator:
     def extract_text_from_pdf(self, pdf_path: str) -> str:
         """Extract text from PDF resume."""
         text = ""
-        
-        if pdfplumber is None and PyPDF2 is None:
-            raise ImportError("Please install required packages: pip install -r requirements.txt")
-        
+  
         # Try pdfplumber first (better for complex layouts)
         if pdfplumber:
             try:
@@ -548,7 +538,6 @@ Only return valid JSON, no additional text."""
     </script>
 </body>
 </html>"""
-        
         # Inject the skill tree data into the HTML
         skill_tree_json = json.dumps(skill_tree, indent=2)
         html_content = html_template.replace('SKILL_TREE_DATA', skill_tree_json)
